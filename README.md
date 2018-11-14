@@ -2,6 +2,9 @@
 
 .Net Standard 2.0 compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
 
+## Build status
+[![Build Status](https://travis-ci.com/mcraiha/CSharp-ChaCha20-NetStandard.svg?branch=master)](https://travis-ci.com/mcraiha/CSharp-ChaCha20-NetStandard)
+
 ## Why?
 
 Because I needed this for my personal project
