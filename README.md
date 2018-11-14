@@ -15,7 +15,7 @@ Because I needed this for my personal project
 
 ## How do I use this?
 
-Either copy the [ChaCha20Cipher-NetStandard.cs](src/ChaCha20Cipher-NetStandard.cs) to your project or use nuget package (link arrives later)
+Either copy the [CSChaCha20.cs](src/CSChaCha20.cs) to your project or use nuget package (link arrives later)
 
 Then do code like
 ```csharp
