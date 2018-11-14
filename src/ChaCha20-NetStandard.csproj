@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>LibChaCha20</PackageId>
+    <VersionPrefix>0.9.0</VersionPrefix>
+    <VersionSuffix>$(VersionSuffix)</VersionSuffix>
+    <Authors>Kaarlo Räihä</Authors>
+    <Description>C# library for ChaCha20 encrypting and decrypting</Description>
+    <IncludeSource>true</IncludeSource>
+    <PackageProjectUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard.git</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
