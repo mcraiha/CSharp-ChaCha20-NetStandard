@@ -1,1 +1,57 @@
 # CSharp-ChaCha20-NetStandard
+
+.Net Standard 2.0 compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
+
+## Why?
+
+Because I needed this for my personal project
+
+## Origin
+
+**Scott Bennett** wrote C# implementation called [ChaCha20-csharp](https://github.com/sbennett1990/ChaCha20-csharp), which works as base for my code. That is why the license is same for both projects 
+
+## How do I use this?
+
+Either copy the [ChaCha20Cipher-NetStandard.cs](src/ChaCha20Cipher-NetStandard.cs) to your project or use nuget package (link arrives later)
+
+Then do code like
+```csharp
+using CSChaCha20;
+
+byte[] mySimpleText = Encoding.ASCII.GetBytes("Plain text I want to encrypt");
+
+byte[] key = new byte[32] { 142, 26, 14, 68, 43, 188, 234, 12, 73, 246, 252, 111, 8, 227, 57, 22, 168, 140, 41, 18, 91, 76, 181, 239, 95, 182, 248, 44, 165, 98, 34, 12 };
+byte[] nonce = new byte[12] { 139, 164, 65, 213, 125, 108, 159, 118, 252, 180, 33, 88 };
+uint counter = 1;
+
+// Encrypt
+ChaCha20 forEncrypting = new ChaCha20(key, nonce, counter);
+byte[] encryptedContent = new byte[mySimpleText.Length];
+forEncrypting.EncryptBytes(encryptedContent, mySimpleText, mySimpleText.Length);
+
+// Decrypt
+ChaCha20 forDecrypting = new ChaCha20(key, nonce, counter);
+byte[] decryptedContent = new byte[encryptedContent.Length];
+forDecrypting.DecryptBytes(decryptedContent, encryptedContent, encryptedContent.Length);
+
+```
+
+## Test cases
+
+You can run test cases by moving to **tests** folder and running following command
+```bash
+dotnet test
+```
+
+## Benchmarks
+
+You can run benchmarks (which compare this implementation to the original version) by moving to **benchmarks** folder and running following command
+```bash
+dotnet run -c Release
+```
+
+there are three different input sizes (64 bytes, 1024 bytes and 1 MiB) and comparisons are done between the original version (made by Scott Bennett) and this project
+
+## License
+
+All the code is licensed under [ISC License](LICENSE)
