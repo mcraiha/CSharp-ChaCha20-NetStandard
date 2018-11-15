@@ -15,7 +15,7 @@ Because I needed this for my personal project
 
 ## How do I use this?
 
-Either copy the [CSChaCha20.cs](src/CSChaCha20.cs) to your project or use nuget package (link arrives later)
+Either copy the [CSChaCha20.cs](src/CSChaCha20.cs) to your project or use [LibChaCha20](https://www.nuget.org/packages/LibChaCha20/) nuget package 
 
 Then do code like
 ```csharp
