@@ -64,6 +64,38 @@ namespace Tests
 		}
 
 		[Test]
+		public void FailedInputOrOutput()
+		{
+			// Arrange
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			uint counter = 1;
+
+			const int lengthOfData = 128;
+
+			byte[] validOutputArray = new byte[lengthOfData];
+			byte[] validInputArray = new byte[lengthOfData];
+			
+			byte[] invalidInput1 = null;
+			byte[] invalidOutput1 = null;
+
+			ChaCha20 nullInput = new ChaCha20(key, nonce, counter);
+			ChaCha20 nullOutput = new ChaCha20(key, nonce, counter);
+
+			// Act
+
+			// Assert
+			Assert.That(() => nullInput.EncryptBytes(validOutputArray, invalidInput1, lengthOfData), Throws.ArgumentNullException);
+			Assert.That(() => nullInput.EncryptBytes(invalidOutput1, validInputArray, lengthOfData), Throws.ArgumentNullException);
+
+			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(validOutputArray, validInputArray, -1));
+			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(validOutputArray, validInputArray, lengthOfData + 1));
+			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(new byte[lengthOfData/2], validInputArray, lengthOfData));
+
+		}
+
+		[Test]
 		public void BasicEncryptDecryptWorkflow()
 		{
 			// Arrange
@@ -72,7 +104,7 @@ namespace Tests
 			byte[] key = new byte[validKeyLength];
 			byte[] nonce = new byte[validNonceLength];
 
-			int lengthOfData = 4096;
+			const int lengthOfData = 4096;
 			byte[] randomContent = new byte[lengthOfData];
 			byte[] encryptedContent = new byte[lengthOfData];
 			byte[] decryptedContent = new byte[lengthOfData];

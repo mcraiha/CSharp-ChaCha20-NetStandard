@@ -120,13 +120,10 @@ namespace CSChaCha20
 		}
 
 		/// <summary>
-		/// Set up the ChaCha state with the given nonce (aka Initialization Vector
-		/// or IV) and block counter. A 12-byte nonce and a 4-byte counter are
-		/// required.
+		/// Set up the ChaCha state with the given nonce (aka Initialization Vector or IV) and block counter. A 12-byte nonce and a 4-byte counter are required.
 		/// </summary>
 		/// <param name="nonce">
-		/// A 12-byte (96-bit) nonce, treated as a concatenation of three 32-bit
-		/// little-endian integers
+		/// A 12-byte (96-bit) nonce, treated as a concatenation of three 32-bit little-endian integers
 		/// </param>
 		/// <param name="counter">
 		/// A 4-byte (32-bit) block counter, treated as a 32-bit little-endian integer
@@ -154,35 +151,31 @@ namespace CSChaCha20
 		}
 
 		/// <summary>
-		/// Encrypt arbitrary-length byte array (input), writing the
-		/// resulting byte array to the output buffer.
+		/// Encrypt arbitrary-length byte array (input), writing the resulting byte array to the output buffer.
 		/// </summary>
 		/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-		/// <param name="output"></param>
-		/// <param name="input"></param>
-		/// <param name="numBytes"></param>
+		/// <param name="output">Output byte array</param>
+		/// <param name="input">Input byte array</param>
+		/// <param name="numBytes">Number of bytes to encrypt</param>
 		public void EncryptBytes(byte[] output, byte[] input, int numBytes)
 		{
 			WorkBytes(output, input, numBytes);
 		}
 
 		/// <summary>
-		/// Decrypt arbitrary-length byte array (input), writing the
-		/// resulting byte array to the output buffer.
+		/// Decrypt arbitrary-length byte array (input), writing the resulting byte array to the output buffer.
 		/// </summary>
 		/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-		/// <param name="output"></param>
-		/// <param name="input"></param>
-		/// <param name="numBytes"></param>
+		/// <param name="output">Output byte array</param>
+		/// <param name="input">Input byte array</param>
+		/// <param name="numBytes">Number of bytes to decrypt</param>
 		public void DecryptBytes(byte[] output, byte[] input, int numBytes)
 		{
 			WorkBytes(output, input, numBytes);
 		}
 
 		/// <summary>
-		/// Encrypt or decrypt an arbitrary-length byte array (input), writing the
-		/// resulting byte array to the output buffer. The number of bytes to read
-		/// from the input buffer is determined by numBytes.
+		/// Encrypt or decrypt an arbitrary-length byte array (input), writing the resulting byte array to the output buffer. The number of bytes to read from the input buffer is determined by numBytes.
 		/// </summary>
 		/// <param name="output"></param>
 		/// <param name="input"></param>
@@ -194,9 +187,24 @@ namespace CSChaCha20
 				throw new ObjectDisposedException("state", "The ChaCha state has been disposed");
 			}
 
+			if (input == null)
+			{
+				throw new ArgumentNullException("input", "Input cannot be null");
+			}
+
+			if (output == null)
+			{
+				throw new ArgumentNullException("output", "Output cannot be null");
+			}
+
 			if (numBytes < 0 || numBytes > input.Length) 
 			{
 				throw new ArgumentOutOfRangeException("numBytes", "The number of bytes to read must be between [0..input.Length]");
+			}
+
+			if (output.Length < numBytes)
+			{
+				throw new ArgumentOutOfRangeException("output", $"Output byte array should be able to take at least {numBytes}");
 			}
 
 			uint[] x = new uint[stateLength];    // Working buffer
