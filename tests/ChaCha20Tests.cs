@@ -123,11 +123,106 @@ namespace Tests
 			forDecrypting = new ChaCha20(key, nonce, counter);
 
 			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData);
-			forDecrypting.EncryptBytes(decryptedContent, encryptedContent, lengthOfData);
+			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
 
 			// Assert
 			CollectionAssert.AreEqual(randomContent, decryptedContent);
 			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+		}
+
+		[Test]
+		public void TestOverloads()
+		{
+			// Arrange
+			Random rng = new Random(Seed: 1337);
+
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			uint counter = 1;
+
+			const int lengthOfData = 4096;
+			byte[] randomContent = new byte[lengthOfData];
+			
+			byte[] encryptedContent1 = new byte[lengthOfData];
+			byte[] decryptedContent1 = new byte[lengthOfData];
+
+			byte[] encryptedContent2 = null;
+			byte[] decryptedContent2 = null;
+
+			byte[] encryptedContent3 = null;
+			byte[] decryptedContent3 = null;
+
+			ChaCha20 forEncrypting1 = null;
+			ChaCha20 forDecrypting1 = null;
+
+			ChaCha20 forEncrypting2 = null;
+			ChaCha20 forDecrypting2 = null;
+
+			ChaCha20 forEncrypting3 = null;
+			ChaCha20 forDecrypting3 = null;
+
+			// Act
+			rng.NextBytes(key);
+			rng.NextBytes(nonce);
+			rng.NextBytes(randomContent);
+
+			forEncrypting1 = new ChaCha20(key, nonce, counter);
+			forDecrypting1 = new ChaCha20(key, nonce, counter);
+
+			forEncrypting2 = new ChaCha20(key, nonce, counter);
+			forDecrypting2 = new ChaCha20(key, nonce, counter);
+
+			forEncrypting3 = new ChaCha20(key, nonce, counter);
+			forDecrypting3 = new ChaCha20(key, nonce, counter);
+
+			forEncrypting1.EncryptBytes(encryptedContent1, randomContent);
+			forDecrypting1.DecryptBytes(decryptedContent1, encryptedContent1);
+
+			encryptedContent2 = forEncrypting2.EncryptBytes(randomContent, randomContent.Length);
+			decryptedContent2 = forDecrypting2.DecryptBytes(encryptedContent2, encryptedContent2.Length);
+
+			encryptedContent3 = forEncrypting3.EncryptBytes(randomContent);
+			decryptedContent3 = forDecrypting3.DecryptBytes(encryptedContent3);
+
+			// Assert
+			CollectionAssert.AreEqual(randomContent, decryptedContent1);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent1);
+
+			CollectionAssert.AreEqual(randomContent, decryptedContent2);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent2);
+
+			CollectionAssert.AreEqual(randomContent, decryptedContent3);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent3);
+		}
+
+		[Test]
+		public void TestStringToUTF8BytesAndBack()
+		{
+			// Arrange
+			Random rng = new Random(Seed: 1337);
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			uint counter = 1;
+
+			string testContent = "this is test content 😊";
+
+			ChaCha20 forEncrypting1 = null;
+			ChaCha20 forDecrypting1 = null;
+
+			// Act
+			rng.NextBytes(key);
+			rng.NextBytes(nonce);
+
+			forEncrypting1 = new ChaCha20(key, nonce, counter);
+			forDecrypting1 = new ChaCha20(key, nonce, counter);
+
+			byte[] encryptedContent = forEncrypting1.EncryptString(testContent);
+			string decryptedString = forDecrypting1.DecryptUTF8ByteArray(encryptedContent);
+
+			// Assert
+			Assert.AreEqual(testContent, decryptedString);
 		}
 
 		[Test]
