@@ -10,7 +10,7 @@
     <IncludeSource>true</IncludeSource>
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard.git</RepositoryUrl>
-    <PackageLicenseUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>ISC</PackageLicenseExpression>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
