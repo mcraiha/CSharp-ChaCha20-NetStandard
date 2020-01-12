@@ -21,12 +21,24 @@ using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlini
 
 namespace CSChaCha20 
 {
+	/// <summary>
+	/// Class that can be used for ChaCha20 encryption / decryption
+	/// </summary>
 	public sealed class ChaCha20 : IDisposable 
 	{
+		/// <summary>
+		/// Only allowed key lenght in bytes
+		/// </summary>
 		public const int allowedKeyLength = 32;
 
+		/// <summary>
+		/// Only allowed nonce lenght in bytes
+		/// </summary>
 		public const int allowedNonceLength = 12;
 
+		/// <summary>
+		/// How many bytes are processed per loop
+		/// </summary>
 		public const int processBytesAtTime = 64;
 
 		private const int stateLength = 16;
@@ -458,6 +470,9 @@ namespace CSChaCha20
 		#endregion // Destructor and Disposer
 	}
 
+	/// <summary>
+	/// Utilities that are used during compression
+	/// </summary>
 	public static class Util 
 	{
 		/// <summary>

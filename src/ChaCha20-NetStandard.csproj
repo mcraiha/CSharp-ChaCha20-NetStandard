@@ -11,6 +11,7 @@
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard.git</RepositoryUrl>
     <PackageLicenseUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/blob/master/LICENSE</PackageLicenseUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
 </Project>
