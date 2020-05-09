@@ -200,7 +200,7 @@ namespace CSChaCha20
 				}
 
 				// Encrypt
-				WorkBytes(output: bytesToWrite, input: bytesToEncrypt, bytesToEncrypt.Length);
+				WorkBytes(output: bytesToWrite, input: bytesToEncrypt, numBytes: bytesToEncrypt.Length);
 
 				// Write
 				writer.Write(bytesToWrite);
@@ -302,7 +302,7 @@ namespace CSChaCha20
 				}
 
 				// Decrypt
-				WorkBytes(output: bytesToWrite, input: bytesToDecrypt, bytesToDecrypt.Length);
+				WorkBytes(output: bytesToWrite, input: bytesToDecrypt, numBytes: bytesToDecrypt.Length);
 
 				// Write
 				writer.Write(bytesToWrite);
