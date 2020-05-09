@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using CSChaCha20;
 using System;
+using System.IO;
 
 namespace Tests
 {
@@ -96,7 +97,7 @@ namespace Tests
 		}
 
 		[Test]
-		public void BasicEncryptDecryptWorkflow()
+		public void BasicByteArrayEncryptDecryptWorkflow()
 		{
 			// Arrange
 			Random rng = new Random(Seed: 1337);
@@ -126,6 +127,44 @@ namespace Tests
 			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
 
 			// Assert
+			CollectionAssert.AreEqual(randomContent, decryptedContent);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+		}
+
+		[Test]
+		public void BasicStreamEncryptDecryptWorkflow()
+		{
+			// Arrange
+			Random rng = new Random(Seed: 1338);
+
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			const int lengthOfData = 4096;
+			byte[] randomContent = new byte[lengthOfData];
+			byte[] encryptedContent = new byte[lengthOfData];
+			byte[] decryptedContent = new byte[lengthOfData];
+
+			uint counter = 1;
+
+			ChaCha20 forEncrypting = null;
+			ChaCha20 forDecrypting = null;
+
+			// Act
+			rng.NextBytes(key);
+			rng.NextBytes(nonce);
+			rng.NextBytes(randomContent);
+
+			forEncrypting = new ChaCha20(key, nonce, counter);
+			forDecrypting = new ChaCha20(key, nonce, counter);
+
+			forEncrypting.EncryptStream(new MemoryStream(encryptedContent), new MemoryStream(randomContent));
+			forDecrypting.DecryptStream(new MemoryStream(decryptedContent), new MemoryStream(encryptedContent));
+
+			// Assert
+			Assert.AreEqual(lengthOfData, encryptedContent.Length);
+			Assert.AreEqual(lengthOfData, decryptedContent.Length);
+
 			CollectionAssert.AreEqual(randomContent, decryptedContent);
 			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
 		}

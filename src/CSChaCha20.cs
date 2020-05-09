@@ -16,6 +16,7 @@
  */
 
 using System;
+using System.IO;
 using System.Text;
 using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlining
 
@@ -178,6 +179,38 @@ namespace CSChaCha20
 		}
 
 		/// <summary>
+		/// Encrypt arbitrary-length byte stream (input), writing the resulting bytes to another stream (output)
+		/// </summary>
+		/// <param name="output">Output stream</param>
+		/// <param name="input">Input stream</param>
+		public void EncryptStream(Stream output, Stream input)
+		{
+			BinaryReader reader = new BinaryReader(input);
+			BinaryWriter writer = new BinaryWriter(output);
+
+			byte[] bytesToEncrypt = reader.ReadBytes(processBytesAtTime);
+			byte[] bytesToWrite = new byte[bytesToEncrypt.Length];
+
+			while (bytesToEncrypt.Length > 0)
+			{
+				// Reallocate only when needed
+				if (bytesToWrite.Length != bytesToEncrypt.Length)
+				{
+					bytesToWrite = new byte[bytesToEncrypt.Length];
+				}
+
+				// Encrypt
+				WorkBytes(output: bytesToWrite, input: bytesToEncrypt, bytesToEncrypt.Length);
+
+				// Write
+				writer.Write(bytesToWrite);
+
+				// Read more
+				bytesToEncrypt = reader.ReadBytes(processBytesAtTime);
+			}		
+		}
+
+		/// <summary>
 		/// Encrypt arbitrary-length byte array (input), writing the resulting byte array to preallocated output buffer.
 		/// </summary>
 		/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
@@ -248,6 +281,38 @@ namespace CSChaCha20
 		}
 
 		/// <summary>
+		/// Decrypt arbitrary-length byte stream (input), writing the resulting bytes to another stream (output)
+		/// </summary>
+		/// <param name="output">Output stream</param>
+		/// <param name="input">Input stream</param>
+		public void DecryptStream(Stream output, Stream input)
+		{
+			BinaryReader reader = new BinaryReader(input);
+			BinaryWriter writer = new BinaryWriter(output);
+
+			byte[] bytesToDecrypt = reader.ReadBytes(processBytesAtTime);
+			byte[] bytesToWrite = new byte[bytesToDecrypt.Length];
+
+			while (bytesToDecrypt.Length > 0)
+			{
+				// Reallocate only when needed
+				if (bytesToWrite.Length != bytesToDecrypt.Length)
+				{
+					bytesToWrite = new byte[bytesToDecrypt.Length];
+				}
+
+				// Decrypt
+				WorkBytes(output: bytesToWrite, input: bytesToDecrypt, bytesToDecrypt.Length);
+
+				// Write
+				writer.Write(bytesToWrite);
+
+				// Read more
+				bytesToDecrypt = reader.ReadBytes(processBytesAtTime);
+			}		
+		}
+
+		/// <summary>
 		/// Decrypt arbitrary-length byte array (input), writing the resulting byte array to preallocated output buffer.
 		/// </summary>
 		/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
@@ -304,9 +369,9 @@ namespace CSChaCha20
 		/// <summary>
 		/// Encrypt or decrypt an arbitrary-length byte array (input), writing the resulting byte array to the output buffer. The number of bytes to read from the input buffer is determined by numBytes.
 		/// </summary>
-		/// <param name="output"></param>
-		/// <param name="input"></param>
-		/// <param name="numBytes"></param>
+		/// <param name="output">Output byte array</param>
+		/// <param name="input">Input byte array</param>
+		/// <param name="numBytes">How many bytes to process</param>
 		private void WorkBytes(byte[] output, byte[] input, int numBytes) 
 		{
 			if (isDisposed) 
