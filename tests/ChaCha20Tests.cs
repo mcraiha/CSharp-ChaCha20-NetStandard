@@ -135,6 +135,44 @@ namespace Tests
 		}
 
 		[Test]
+		public void BasicByteArrayEncryptDecryptWorkflowNonPowerOfTwo()
+		{
+			// Arrange
+			Random rng = new Random(Seed: 1339);
+
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			const int lengthOfData = 13337;
+			byte[] randomContent = new byte[lengthOfData];
+			byte[] encryptedContent = new byte[lengthOfData];
+			byte[] decryptedContent = new byte[lengthOfData];
+
+			uint counter = 1;
+
+			ChaCha20 forEncrypting = null;
+			ChaCha20 forDecrypting = null;
+
+			// Act
+			rng.NextBytes(key);
+			rng.NextBytes(nonce);
+			rng.NextBytes(randomContent);
+
+			forEncrypting = new ChaCha20(key, nonce, counter);
+			forDecrypting = new ChaCha20(key, nonce, counter);
+
+			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData);
+			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
+
+			// Assert
+			Assert.AreEqual(lengthOfData, encryptedContent.Length);
+			Assert.AreEqual(lengthOfData, decryptedContent.Length);
+
+			CollectionAssert.AreEqual(randomContent, decryptedContent);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+		}
+
+		[Test]
 		public void BasicStreamEncryptDecryptWorkflow()
 		{
 			// Arrange
@@ -144,6 +182,44 @@ namespace Tests
 			byte[] nonce = new byte[validNonceLength];
 
 			const int lengthOfData = 4096;
+			byte[] randomContent = new byte[lengthOfData];
+			byte[] encryptedContent = new byte[lengthOfData];
+			byte[] decryptedContent = new byte[lengthOfData];
+
+			uint counter = 1;
+
+			ChaCha20 forEncrypting = null;
+			ChaCha20 forDecrypting = null;
+
+			// Act
+			rng.NextBytes(key);
+			rng.NextBytes(nonce);
+			rng.NextBytes(randomContent);
+
+			forEncrypting = new ChaCha20(key, nonce, counter);
+			forDecrypting = new ChaCha20(key, nonce, counter);
+
+			forEncrypting.EncryptStream(new MemoryStream(encryptedContent), new MemoryStream(randomContent));
+			forDecrypting.DecryptStream(new MemoryStream(decryptedContent), new MemoryStream(encryptedContent));
+
+			// Assert
+			Assert.AreEqual(lengthOfData, encryptedContent.Length);
+			Assert.AreEqual(lengthOfData, decryptedContent.Length);
+
+			CollectionAssert.AreEqual(randomContent, decryptedContent);
+			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+		}
+
+		[Test]
+		public void BasicStreamEncryptDecryptWorkflowNonPowerOfTwo()
+		{
+			// Arrange
+			Random rng = new Random(Seed: 138);
+
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			const int lengthOfData = 13339;
 			byte[] randomContent = new byte[lengthOfData];
 			byte[] encryptedContent = new byte[lengthOfData];
 			byte[] decryptedContent = new byte[lengthOfData];
