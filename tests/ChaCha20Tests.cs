@@ -127,6 +127,9 @@ namespace Tests
 			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
 
 			// Assert
+			Assert.AreEqual(lengthOfData, encryptedContent.Length);
+			Assert.AreEqual(lengthOfData, decryptedContent.Length);
+
 			CollectionAssert.AreEqual(randomContent, decryptedContent);
 			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
 		}
