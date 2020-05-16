@@ -1,5 +1,6 @@
 ## Version 0.9.4 (released 2020-05-16)
-- Add wanted bytes at time parameter for stream encryption/decryption
+- Add wanted bytes at time parameter for stream encryption/decryption (**FEATURE**)
+- Add async versions of stream processing (**FEATURE**)
 
 ## Version 0.9.3 (released 2020-05-09)
 - Support stream encryption/decryption (**FEATURE**)
