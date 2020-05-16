@@ -13,6 +13,10 @@ Because I needed this for my personal project
 
 **Scott Bennett** wrote C# implementation called [ChaCha20-csharp](https://github.com/sbennett1990/ChaCha20-csharp), which works as base for my code. That is why the license is same for both projects 
 
+## Documentation
+
+[Docs](https://mcraiha.github.io/CSharp-ChaCha20-NetStandard/api/index.html)
+
 ## How do I use this?
 
 Either copy the [CSChaCha20.cs](src/CSChaCha20.cs) to your project or use [LibChaCha20](https://www.nuget.org/packages/LibChaCha20/) nuget package 
