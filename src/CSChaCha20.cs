@@ -175,7 +175,7 @@ namespace CSChaCha20
 		/// <param name="numBytes">Number of bytes to encrypt</param>
 		public void EncryptBytes(byte[] output, byte[] input, int numBytes)
 		{
-			WorkBytes(output, input, numBytes);
+			this.WorkBytes(output, input, numBytes);
 		}
 
 		/// <summary>
@@ -183,31 +183,10 @@ namespace CSChaCha20
 		/// </summary>
 		/// <param name="output">Output stream</param>
 		/// <param name="input">Input stream</param>
-		public void EncryptStream(Stream output, Stream input)
+		/// <param name="howManyBytesToProcessAtTime">How many bytes to read and write at time, default is 1024</param>
+		public void EncryptStream(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024)
 		{
-			BinaryReader reader = new BinaryReader(input);
-			BinaryWriter writer = new BinaryWriter(output);
-
-			byte[] bytesToEncrypt = reader.ReadBytes(processBytesAtTime);
-			byte[] bytesToWrite = new byte[bytesToEncrypt.Length];
-
-			while (bytesToEncrypt.Length > 0)
-			{
-				// Reallocate only when needed
-				if (bytesToWrite.Length != bytesToEncrypt.Length)
-				{
-					bytesToWrite = new byte[bytesToEncrypt.Length];
-				}
-
-				// Encrypt
-				WorkBytes(output: bytesToWrite, input: bytesToEncrypt, numBytes: bytesToEncrypt.Length);
-
-				// Write
-				writer.Write(bytesToWrite);
-
-				// Read more
-				bytesToEncrypt = reader.ReadBytes(processBytesAtTime);
-			}		
+			this.WorkStreams(output, input, howManyBytesToProcessAtTime);
 		}
 
 		/// <summary>
@@ -218,7 +197,7 @@ namespace CSChaCha20
 		/// <param name="input">Input byte array</param>
 		public void EncryptBytes(byte[] output, byte[] input)
 		{
-			WorkBytes(output, input, input.Length);
+			this.WorkBytes(output, input, input.Length);
 		}
 
 		/// <summary>
@@ -231,7 +210,7 @@ namespace CSChaCha20
 		public byte[] EncryptBytes(byte[] input, int numBytes)
 		{
 			byte[] returnArray = new byte[numBytes];
-			WorkBytes(returnArray, input, numBytes);
+			this.WorkBytes(returnArray, input, numBytes);
 			return returnArray;
 		}
 
@@ -244,7 +223,7 @@ namespace CSChaCha20
 		public byte[] EncryptBytes(byte[] input)
 		{
 			byte[] returnArray = new byte[input.Length];
-			WorkBytes(returnArray, input, input.Length);
+			this.WorkBytes(returnArray, input, input.Length);
 			return returnArray;
 		}
 
@@ -259,7 +238,7 @@ namespace CSChaCha20
 			byte[] utf8Bytes = System.Text.Encoding.UTF8.GetBytes(input);
 			byte[] returnArray = new byte[utf8Bytes.Length];
 
-			WorkBytes(returnArray, utf8Bytes, utf8Bytes.Length);
+			this.WorkBytes(returnArray, utf8Bytes, utf8Bytes.Length);
 			return returnArray;
 		}
 
@@ -277,7 +256,7 @@ namespace CSChaCha20
 		/// <param name="numBytes">Number of bytes to decrypt</param>
 		public void DecryptBytes(byte[] output, byte[] input, int numBytes)
 		{
-			WorkBytes(output, input, numBytes);
+			this.WorkBytes(output, input, numBytes);
 		}
 
 		/// <summary>
@@ -285,31 +264,10 @@ namespace CSChaCha20
 		/// </summary>
 		/// <param name="output">Output stream</param>
 		/// <param name="input">Input stream</param>
-		public void DecryptStream(Stream output, Stream input)
+		/// <param name="howManyBytesToProcessAtTime">How many bytes to read and write at time, default is 1024</param>
+		public void DecryptStream(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024)
 		{
-			BinaryReader reader = new BinaryReader(input);
-			BinaryWriter writer = new BinaryWriter(output);
-
-			byte[] bytesToDecrypt = reader.ReadBytes(processBytesAtTime);
-			byte[] bytesToWrite = new byte[bytesToDecrypt.Length];
-
-			while (bytesToDecrypt.Length > 0)
-			{
-				// Reallocate only when needed
-				if (bytesToWrite.Length != bytesToDecrypt.Length)
-				{
-					bytesToWrite = new byte[bytesToDecrypt.Length];
-				}
-
-				// Decrypt
-				WorkBytes(output: bytesToWrite, input: bytesToDecrypt, numBytes: bytesToDecrypt.Length);
-
-				// Write
-				writer.Write(bytesToWrite);
-
-				// Read more
-				bytesToDecrypt = reader.ReadBytes(processBytesAtTime);
-			}		
+			this.WorkStreams(output, input, howManyBytesToProcessAtTime);
 		}
 
 		/// <summary>
@@ -365,6 +323,33 @@ namespace CSChaCha20
 		}
 
 		#endregion // Decryption methods
+
+		private void WorkStreams(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024)
+		{
+			BinaryReader reader = new BinaryReader(input);
+			BinaryWriter writer = new BinaryWriter(output);
+
+			byte[] bytesToRead = reader.ReadBytes(howManyBytesToProcessAtTime);
+			byte[] bytesToWrite = new byte[bytesToRead.Length];
+
+			while (bytesToRead.Length > 0)
+			{
+				// Reallocate only when needed
+				if (bytesToWrite.Length != bytesToRead.Length)
+				{
+					bytesToWrite = new byte[bytesToRead.Length];
+				}
+
+				// Encrypt or decrypt
+				WorkBytes(output: bytesToWrite, input: bytesToRead, numBytes: bytesToRead.Length);
+
+				// Write
+				writer.Write(bytesToWrite);
+
+				// Read more
+				bytesToRead = reader.ReadBytes(howManyBytesToProcessAtTime);
+			}		
+		}
 
 		/// <summary>
 		/// Encrypt or decrypt an arbitrary-length byte array (input), writing the resulting byte array to the output buffer. The number of bytes to read from the input buffer is determined by numBytes.
