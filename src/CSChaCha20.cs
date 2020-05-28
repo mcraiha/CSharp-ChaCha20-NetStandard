@@ -428,8 +428,7 @@ namespace CSChaCha20
 
 			uint[] x = new uint[stateLength];    // Working buffer
 			byte[] tmp = new byte[processBytesAtTime];  // Temporary buffer
-			int outputOffset = 0;
-			int inputOffset = 0;
+			int offset = 0;
 
 			while (numBytes > 0) 
 			{
@@ -466,7 +465,7 @@ namespace CSChaCha20
 				{
 					for (int i = 0; i < numBytes; i++) 
 					{
-						output[i + outputOffset] = (byte) (input[i + inputOffset] ^ tmp[i]);
+						output[i + offset] = (byte) (input[i + offset] ^ tmp[i]);
 					}
 
 					return;
@@ -474,12 +473,11 @@ namespace CSChaCha20
 
 				for (int i = 0; i < processBytesAtTime; i++ ) 
 				{
-					output[i + outputOffset] = (byte) (input[i + inputOffset] ^ tmp[i]);
+					output[i + offset] = (byte) (input[i + offset] ^ tmp[i]);
 				}
 
 				numBytes -= processBytesAtTime;
-				outputOffset += processBytesAtTime;
-				inputOffset += processBytesAtTime;
+				offset += processBytesAtTime;
 			}
 		}
 
