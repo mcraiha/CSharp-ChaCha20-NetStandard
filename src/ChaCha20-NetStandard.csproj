@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>LibChaCha20</PackageId>
-    <VersionPrefix>0.9.4</VersionPrefix>
+    <VersionPrefix>0.9.5</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Kaarlo Räihä</Authors>
     <Description>Managed C# .NET Standard 2.0 library for ChaCha20 encrypting and decrypting</Description>

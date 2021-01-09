@@ -1,3 +1,6 @@
+## Version 0.9.5 (released 2021-01-09)
+- WorkStreams optimization, thanks to **Akintos** (**PERFORMANCE**)
+
 ## Version 0.9.4 (released 2020-05-16)
 - Add wanted bytes at time parameter for stream encryption/decryption (**FEATURE**)
 - Add async versions of stream processing (**FEATURE**)
