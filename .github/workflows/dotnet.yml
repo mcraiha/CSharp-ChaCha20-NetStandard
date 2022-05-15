@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Test
-      run: dotnet test tests/tests.csproj --no-build --verbosity normal --collect:"XPlat Code Coverage"
+      run: dotnet test tests/tests.csproj --verbosity normal --collect:"XPlat Code Coverage"
     - name: Upload coverage files
       env:
         CODACY_PROJECT_TOKEN: ${{secrets.CODACY_PROJECT_TOKEN}}
