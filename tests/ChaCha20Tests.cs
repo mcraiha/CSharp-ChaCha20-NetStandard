@@ -530,5 +530,23 @@ namespace Tests
 			CollectionAssert.AreEqual(expected2, output2);
 			CollectionAssert.AreEqual(expected3, output3);
 		}
+
+		[Test, Description("Check that .State has something")]
+		public void StateReadPossibleTest()
+		{
+			// Arrange
+			byte[] key = new byte[validKeyLength];
+			byte[] nonce = new byte[validNonceLength];
+
+			uint counter = 1;
+
+			ChaCha20 forEncrypting1 = new ChaCha20(key, nonce, counter);
+
+			// Act
+
+			// Assert
+			Assert.NotNull(forEncrypting1.State);
+			Assert.AreEqual(16, forEncrypting1.State.Length, "Valid state lenght should always be 16 bytes");
+		}
 	}
 }
