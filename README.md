@@ -4,6 +4,7 @@ Managed .Net Standard 2.0 compatible [ChaCha20](https://en.wikipedia.org/wiki/Sa
 
 ## Build status
 ![.NET](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/workflows/.NET/badge.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Coverage/6affaeed425241a88304a5397005c789)](https://www.codacy.com/gh/mcraiha/CSharp-ChaCha20-NetStandard/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mcraiha/CSharp-ChaCha20-NetStandard&amp;utm_campaign=Badge_Coverage)
 
 ## Why?
 
