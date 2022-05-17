@@ -1,3 +1,6 @@
+## Version 0.9.6 (NOT RELEASED YET)
+- Support net6.0 framework build
+
 ## Version 0.9.5 (released 2021-01-09)
 - WorkStreams optimization, thanks to **Akintos** (**PERFORMANCE**)
 
