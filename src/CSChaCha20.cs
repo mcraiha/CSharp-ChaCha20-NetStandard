@@ -48,7 +48,7 @@ namespace CSChaCha20
 		/// <summary>
 		/// The ChaCha20 state (aka "context")
 		/// </summary>
-		private uint[] state;
+		private readonly uint[] state;
 
 		/// <summary>
 		/// Determines if the objects in this class have been disposed of. Set to true by the Dispose() method.
@@ -536,12 +536,7 @@ namespace CSChaCha20
 				}
 
 				/* Cleanup any unmanaged objects here */
-				if (state != null) 
-				{
-					Array.Clear(state, 0, state.Length);
-				}
-
-				state = null;
+				Array.Clear(state, 0, stateLength);
 			}
 
 			isDisposed = true;
