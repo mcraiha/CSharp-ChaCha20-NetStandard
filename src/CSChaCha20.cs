@@ -48,12 +48,12 @@ namespace CSChaCha20
 		/// <summary>
 		/// The ChaCha20 state (aka "context")
 		/// </summary>
-		private readonly uint[] state;
+		private readonly uint[] state = new uint[stateLength];
 
 		/// <summary>
 		/// Determines if the objects in this class have been disposed of. Set to true by the Dispose() method.
 		/// </summary>
-		private bool isDisposed;
+		private bool isDisposed = false;
 
 		/// <summary>
 		/// Set up a new ChaCha20 state. The lengths of the given parameters are checked before encryption happens.
@@ -72,9 +72,6 @@ namespace CSChaCha20
 		/// </param>
 		public ChaCha20(byte[] key, byte[] nonce, uint counter) 
 		{
-			this.state = new uint[stateLength];
-			this.isDisposed = false;
-
 			this.KeySetup(key);
 			this.IvSetup(nonce, counter);
 		}
