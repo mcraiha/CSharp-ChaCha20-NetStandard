@@ -548,5 +548,34 @@ namespace Tests
 			Assert.NotNull(forEncrypting1.State);
 			Assert.AreEqual(16, forEncrypting1.State.Length, "Valid state lenght should always be 16 bytes");
 		}
+
+		#if NET6_0_OR_GREATER
+
+		[Test, Description("Check that ReadOnlySpan constructor works as it should")]
+		public void ReadOnlySpanConstructorTest()
+		{
+			// Arrange
+			byte[] key1 = new byte[validKeyLength] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			byte[] nonce1 = new byte[validNonceLength] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			uint counter1 = 1;
+
+			byte[] key2 = new byte[validKeyLength] { 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			byte[] nonce2 = new byte[validNonceLength] { 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 };
+			uint counter2 = UInt32.MaxValue;
+
+			ChaCha20 cRegular1 = new ChaCha20(key1, nonce1, counter1);
+			ChaCha20 cRegular2 = new ChaCha20(key2, nonce2, counter2);
+
+			ChaCha20 cRreadOnlySpan1 = new ChaCha20(new ReadOnlySpan<byte>(key1), new ReadOnlySpan<byte>(nonce1), counter1);
+			ChaCha20 cRreadOnlySpan2 = new ChaCha20(new ReadOnlySpan<byte>(key2), new ReadOnlySpan<byte>(nonce2), counter2);
+
+			// Act
+
+			// Assert
+			CollectionAssert.AreEqual(cRegular1.State, cRreadOnlySpan1.State);
+			CollectionAssert.AreEqual(cRegular2.State, cRreadOnlySpan2.State);
+		}
+
+		#endif // NET6_0_OR_GREATER
 	}
 }
