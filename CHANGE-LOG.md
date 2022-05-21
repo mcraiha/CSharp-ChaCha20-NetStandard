@@ -1,5 +1,6 @@
-## Version 0.9.6 (NOT RELEASED YET)
-- Support net6.0 framework build
+## Version 1.0.0 (released 2022-05-21)
+- Support net6.0
+- Deterministic build
 
 ## Version 0.9.5 (released 2021-01-09)
 - WorkStreams optimization, thanks to **Akintos** (**PERFORMANCE**)
