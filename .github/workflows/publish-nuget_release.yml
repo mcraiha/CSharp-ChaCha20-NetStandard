@@ -23,4 +23,4 @@ jobs:
         cd src
         dotnet pack -o out --configuration Release --include-source --include-symbols /p:ContinuousIntegrationBuild=true /p:InformationalVersion="Build time: ${{ github.event.repository.updated_at}} Short hash: ${SHORT_SHA}"
     - name: Push to Nuget
-      run: dotnet nuget push ./src/out/*.nupkg --skip-duplicate -k ${{secrets.NUGET_TOKEN}}
+      run: dotnet nuget push ./src/out/*.nupkg --skip-duplicate -k ${{secrets.NUGET_TOKEN}} --source https://api.nuget.org/v3/index.json
