@@ -24,7 +24,7 @@ using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlini
 namespace CSChaCha20 
 {
 	/// <summary>
-	/// Class that can be used for ChaCha20 encryption / decryption
+	/// Class for ChaCha20 encryption / decryption
 	/// </summary>
 	public sealed class ChaCha20 : IDisposable 
 	{
