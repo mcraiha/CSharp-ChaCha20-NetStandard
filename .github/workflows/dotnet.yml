@@ -18,7 +18,7 @@ jobs:
       with:
         dotnet-version: | 
           2.1.x
-          7.0.x
+          8.0.x
     - name: Test
       run: dotnet test tests/tests.csproj --verbosity normal --collect:"XPlat Code Coverage"
     - name: Upload coverage files
