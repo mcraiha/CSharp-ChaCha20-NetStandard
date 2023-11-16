@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, 2018 Scott Bennett
- *           (c) 2018-2021 Kaarlo Räihä
+ *           (c) 2018-2023 Kaarlo Räihä
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -109,8 +109,13 @@ namespace CSChaCha20
 
 		// These are the same constants defined in the reference implementation.
 		// http://cr.yp.to/streamciphers/timings/estreambench/submissions/salsa20/chacha8/ref/chacha.c
+		#if NET8_0_OR_GREATER
+		private static readonly byte[] sigma = "expand 32-byte k"u8.ToArray();
+		private static readonly byte[] tau   = "expand 16-byte k"u8.ToArray();
+		#else
 		private static readonly byte[] sigma = Encoding.ASCII.GetBytes("expand 32-byte k");
 		private static readonly byte[] tau   = Encoding.ASCII.GetBytes("expand 16-byte k");
+		#endif // NET8_0_OR_GREATER
 
 		/// <summary>
 		/// Set up the ChaCha state with the given key. A 32-byte key is required and enforced.
