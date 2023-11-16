@@ -1,3 +1,8 @@
+## Version 1.0.1 (released 2023-11-16)
+- Include nuget-readme
+- Support net8.0
+- Trimmable library
+
 ## Version 1.0.0 (released 2022-05-21)
 - Support net6.0
 - Deterministic build
