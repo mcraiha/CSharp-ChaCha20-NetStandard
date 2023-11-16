@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net6.0;net8.0</TargetFrameworks>
     <PackageId>LibChaCha20</PackageId>
     <VersionPrefix>1.0.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Kaarlo Räihä</Authors>
-    <Description>Managed C# .NET (Standard 2.0 and .NET 6) library for ChaCha20 encrypting and decrypting</Description>
+    <Description>Managed C# .NET (Standard 2.0, .NET 6 and .NET 8) library for ChaCha20 encrypting and decrypting</Description>
     <IncludeSource>true</IncludeSource>
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard.git</RepositoryUrl>
@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
