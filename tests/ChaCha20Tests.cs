@@ -564,8 +564,6 @@ namespace Tests
 			Assert.AreEqual(16, forEncrypting1.State.Length, "Valid state lenght should always be 16 bytes");
 		}
 
-		#if NET6_0_OR_GREATER
-
 		[Test, Description("Check that ReadOnlySpan constructor works as it should")]
 		public void ReadOnlySpanConstructorTest()
 		{
@@ -590,7 +588,5 @@ namespace Tests
 			CollectionAssert.AreEqual(cRegular1.State, cRreadOnlySpan1.State);
 			CollectionAssert.AreEqual(cRegular2.State, cRreadOnlySpan2.State);
 		}
-
-		#endif // NET6_0_OR_GREATER
 	}
 }

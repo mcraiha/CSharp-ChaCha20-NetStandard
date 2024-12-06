@@ -1,5 +1,5 @@
 # CSharp-ChaCha20-NetStandard
-Managed .Net Standard 2.0 compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
+Managed .Net (.NET 8) compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
 
 ## GitHub
 [CSharp-ChaCha20-NetStandard](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard)

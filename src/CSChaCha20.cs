@@ -17,7 +17,6 @@
 
 using System;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using System.Runtime.Intrinsics;
 using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlining
@@ -108,8 +107,6 @@ public sealed class ChaCha20 : IDisposable
 		this.IvSetup(nonce, counter);
 	}
 
-	#if NET6_0_OR_GREATER
-
 	/// <summary>
 	/// Set up a new ChaCha20 state. The lengths of the given parameters are checked before encryption happens.
 	/// </summary>
@@ -118,14 +115,12 @@ public sealed class ChaCha20 : IDisposable
 	/// </remarks>
 	/// <param name="key">A 32-byte (256-bit) key, treated as a concatenation of eight 32-bit little-endian integers</param>
 	/// <param name="nonce">A 12-byte (96-bit) nonce, treated as a concatenation of three 32-bit little-endian integers</param>
-	/// <param name="counter">A 4-byte (32-bit) block counter, treated as a 32-bit little-endian integer</param>
+	/// <param name="counter">A 4-byte (32-bit) block counter, treated as a 32-bit little-endian unsigned integer</param>
 	public ChaCha20(ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, uint counter) 
 	{
 		this.KeySetup(key.ToArray());
 		this.IvSetup(nonce.ToArray(), counter);
 	}
-
-	#endif // NET6_0_OR_GREATER
 
 	/// <summary>
 	/// The ChaCha20 state (aka "context"). Read-Only.
@@ -141,13 +136,8 @@ public sealed class ChaCha20 : IDisposable
 
 	// These are the same constants defined in the reference implementation.
 	// http://cr.yp.to/streamciphers/timings/estreambench/submissions/salsa20/chacha8/ref/chacha.c
-	#if NET8_0_OR_GREATER
 	private static readonly byte[] sigma = "expand 32-byte k"u8.ToArray();
 	private static readonly byte[] tau   = "expand 16-byte k"u8.ToArray();
-	#else
-	private static readonly byte[] sigma = Encoding.ASCII.GetBytes("expand 32-byte k");
-	private static readonly byte[] tau   = Encoding.ASCII.GetBytes("expand 16-byte k");
-	#endif // NET8_0_OR_GREATER
 
 	/// <summary>
 	/// Set up the ChaCha state with the given key. A 32-byte key is required and enforced.

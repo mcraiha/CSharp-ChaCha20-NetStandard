@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0</TargetFrameworks>
     <PackageId>LibChaCha20</PackageId>
-    <VersionPrefix>1.0.1</VersionPrefix>
+    <VersionPrefix>1.1.0</VersionPrefix>
     <VersionSuffix>$(VersionSuffix)</VersionSuffix>
     <Authors>Kaarlo Räihä</Authors>
-    <Description>Managed C# .NET (Standard 2.0, .NET 6 and .NET 8) library for ChaCha20 encrypting and decrypting</Description>
+    <Description>Managed C# .NET (.NET 8) library for ChaCha20 encrypting and decrypting</Description>
     <IncludeSource>true</IncludeSource>
     <PackageProjectUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mcraiha/CSharp-ChaCha20-NetStandard.git</RepositoryUrl>
@@ -23,7 +23,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All"/>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
