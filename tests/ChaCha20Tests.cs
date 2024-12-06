@@ -98,7 +98,12 @@ namespace Tests
 		}
 
 		[Test]
-		public void BasicByteArrayEncryptDecryptWorkflow()
+		[TestCase(SimdMode.AutoDetect)]
+		[TestCase(SimdMode.V128)]
+		[TestCase(SimdMode.V256)]
+		[TestCase(SimdMode.V512)]
+		[TestCase(SimdMode.None)]
+		public void BasicByteArrayEncryptDecryptWorkflow(SimdMode simdMode)
 		{
 			// Arrange
 			Random rng = new Random(Seed: 1337);
@@ -124,8 +129,8 @@ namespace Tests
 			forEncrypting = new ChaCha20(key, nonce, counter);
 			forDecrypting = new ChaCha20(key, nonce, counter);
 
-			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData);
-			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
+			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData, simdMode);
+			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData, simdMode);
 
 			// Assert
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
@@ -136,7 +141,12 @@ namespace Tests
 		}
 
 		[Test]
-		public void BasicByteArrayEncryptDecryptWorkflowNonPowerOfTwo()
+		[TestCase(SimdMode.AutoDetect)]
+		[TestCase(SimdMode.V128)]
+		[TestCase(SimdMode.V256)]
+		[TestCase(SimdMode.V512)]
+		[TestCase(SimdMode.None)]
+		public void BasicByteArrayEncryptDecryptWorkflowNonPowerOfTwo(SimdMode simdMode)
 		{
 			// Arrange
 			Random rng = new Random(Seed: 1339);
@@ -162,8 +172,8 @@ namespace Tests
 			forEncrypting = new ChaCha20(key, nonce, counter);
 			forDecrypting = new ChaCha20(key, nonce, counter);
 
-			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData);
-			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData);
+			forEncrypting.EncryptBytes(encryptedContent, randomContent, lengthOfData, simdMode);
+			forDecrypting.DecryptBytes(decryptedContent, encryptedContent, lengthOfData, simdMode);
 
 			// Assert
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
@@ -421,7 +431,12 @@ namespace Tests
 		}
 
 		[Test]
-		public void ExistingTestVectors()
+		[TestCase(SimdMode.AutoDetect)]
+		[TestCase(SimdMode.V128)]
+		[TestCase(SimdMode.V256)]
+		[TestCase(SimdMode.V512)]
+		[TestCase(SimdMode.None)]
+		public void ExistingTestVectors(SimdMode simdMode)
 		{
 			// Actual
 
@@ -521,9 +536,9 @@ namespace Tests
 			ChaCha20 forEncrypting3 = new ChaCha20(key3, nonce3, counter3);
 
 			// Act
-			forEncrypting1.EncryptBytes(output1, content1, lengthOfContent1);
-			forEncrypting2.EncryptBytes(output2, content2, lengthOfContent2);
-			forEncrypting3.EncryptBytes(output3, content3, lengthOfContent3);
+			forEncrypting1.EncryptBytes(output1, content1, lengthOfContent1, simdMode);
+			forEncrypting2.EncryptBytes(output2, content2, lengthOfContent2, simdMode);
+			forEncrypting3.EncryptBytes(output3, content3, lengthOfContent3, simdMode);
 
 			// Assert
 			CollectionAssert.AreEqual(expected1, output1);
