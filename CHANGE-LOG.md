@@ -1,3 +1,6 @@
+## Version 1.1.1 (released 2025-11-13)
+- Support net10.0
+
 ## Version 1.1.0 (released 2024-12-06)
 - Drop support for .NET Standard and .NET 6 (**BREAKING**)
 - SIMD support for XOR operation (**PERFORMANCE**)
