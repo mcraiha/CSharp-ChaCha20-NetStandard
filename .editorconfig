@@ -1,0 +1,14 @@
+# This file is the top-most EditorConfig file
+root = true
+
+# C# source files
+[*.cs]
+charset = utf-8
+indent_style = tab
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+csharp_prefer_braces = true:error  # Always require braces for control flow (if, while, etc.)
+
+dotnet_style_require_accessibility_modifiers = always:error  # Enforce use of public/private/etc.
