@@ -1,3 +1,6 @@
+## Version 1.1.2 (released 2026-06-30)
+- Enable `Nullable` (**FEATURE**/**BREAKING**)
+
 ## Version 1.1.1 (released 2025-11-13)
 - Support net10.0
 
