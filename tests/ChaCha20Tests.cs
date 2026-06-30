@@ -136,8 +136,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -179,8 +179,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -217,8 +217,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -255,8 +255,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -293,8 +293,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -331,8 +331,8 @@ namespace Tests
 			Assert.AreEqual(lengthOfData, encryptedContent.Length);
 			Assert.AreEqual(lengthOfData, decryptedContent.Length);
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent);
+			Assert.That(decryptedContent, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -391,14 +391,14 @@ namespace Tests
 			decryptedContent3 = forDecrypting3.DecryptBytes(encryptedContent3);
 
 			// Assert
-			CollectionAssert.AreEqual(randomContent, decryptedContent1);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent1);
+			Assert.That(decryptedContent1, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent1, Is.Not.EqualTo(randomContent));
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent2);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent2);
+			Assert.That(decryptedContent2, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent2, Is.Not.EqualTo(randomContent));
 
-			CollectionAssert.AreEqual(randomContent, decryptedContent3);
-			CollectionAssert.AreNotEqual(randomContent, encryptedContent3);
+			Assert.That(decryptedContent3, Is.EqualTo(randomContent));
+			Assert.That(encryptedContent3, Is.Not.EqualTo(randomContent));
 		}
 
 		[Test]
@@ -541,9 +541,9 @@ namespace Tests
 			forEncrypting3.EncryptBytes(output3, content3, lengthOfContent3, simdMode);
 
 			// Assert
-			CollectionAssert.AreEqual(expected1, output1);
-			CollectionAssert.AreEqual(expected2, output2);
-			CollectionAssert.AreEqual(expected3, output3);
+			Assert.That(output1, Is.EqualTo(output1));
+			Assert.That(output2, Is.EqualTo(output2));
+			Assert.That(output3, Is.EqualTo(output3));
 		}
 
 		[Test, Description("Check that .State has something")]
@@ -585,8 +585,8 @@ namespace Tests
 			// Act
 
 			// Assert
-			CollectionAssert.AreEqual(cRegular1.State, cRreadOnlySpan1.State);
-			CollectionAssert.AreEqual(cRegular2.State, cRreadOnlySpan2.State);
+			Assert.That(cRreadOnlySpan1.State, Is.EqualTo(cRegular1.State));
+			Assert.That(cRreadOnlySpan2.State, Is.EqualTo(cRegular2.State));
 		}
 	}
 }
