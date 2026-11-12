@@ -1,6 +1,6 @@
 # CSharp-ChaCha20-NetStandard
 
-Managed .Net (.NET 8 and .NET 10) compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
+Managed .Net (.NET 10 and .NET 11) compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
 
 ## Build status
 ![.NET](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/workflows/.NET/badge.svg)
@@ -16,7 +16,8 @@ Because I needed this for my personal project
 
 ## Older versions
 
-YOu can find OLD .NET Standard and .NET 6 compatible version from [older branch](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/tree/netstandard20andnet6)
+You can find OLD .NET Standard and .NET 6 compatible version from [older branch](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/tree/netstandard20andnet6)
+You can find OLD .NET 8 compatible version from [older branch](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/tree/net8)
 
 ## Documentation
 
