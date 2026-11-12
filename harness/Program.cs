@@ -13,9 +13,9 @@ public class Program
 
 		int limit = 0;
 
-		if(args.Length > 1 && !int.TryParse(args[1], out limit))
+		if(args.Length > 0 && !int.TryParse(args[0], out limit))
 		{
-			errorWriter.WriteLine($"{args[1]} is not a valid integer");
+			errorWriter.WriteLine($"{args[0]} is not a valid integer");
 			return;
 		}
 
