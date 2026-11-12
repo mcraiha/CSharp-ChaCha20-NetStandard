@@ -1,3 +1,7 @@
+## Version 1.2.0 (released 2026-11-12)
+- Support net11.0
+- Drop support for .NET 8 (**BREAKING**)
+
 ## Version 1.1.2 (released 2026-06-30)
 - Enable `Nullable` (**FEATURE**/**BREAKING**)
 
