@@ -1,13 +1,17 @@
 # CSharp-ChaCha20-NetStandard
-Managed .Net (.NET 8) compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
+
+Managed .Net (.NET 10 and .NET 11) compatible [ChaCha20](https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant) cipher written in C#
 
 ## GitHub
+
 [CSharp-ChaCha20-NetStandard](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard)
 
 ## Documentation
+
 [Documentation](api/) 
 
 ## How do I use this?
+
 Either copy the [CSChaCha20.cs](https://github.com/mcraiha/CSharp-ChaCha20-NetStandard/blob/master/src/CSChaCha20.cs) to your project or use [LibChaCha20](https://www.nuget.org/packages/LibChaCha20/) nuget package
 
 Then do code like
