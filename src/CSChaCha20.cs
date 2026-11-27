@@ -20,6 +20,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Runtime.Intrinsics;
 using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlining
+using System.Threading; 
 
 namespace CSChaCha20;
 
@@ -244,16 +245,17 @@ public sealed class ChaCha20 : IDisposable
 	/// </summary>
 	/// <param name="output">Output stream</param>
 	/// <param name="input">Input stream</param>
+	/// <param name="token">Optional CancellationToken</param>
 	/// <param name="howManyBytesToProcessAtTime">How many bytes to read and write at time, default is 1024</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public async Task EncryptStreamAsync(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
+	public async Task EncryptStreamAsync(Stream output, Stream input, CancellationToken token = default, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
 		}
 
-		await this.WorkStreamsAsync(output, input, simdMode, howManyBytesToProcessAtTime);
+		await this.WorkStreamsAsync(output, input, token, simdMode, howManyBytesToProcessAtTime);
 	}
 
 	/// <summary>
@@ -403,16 +405,17 @@ public sealed class ChaCha20 : IDisposable
 	/// </summary>
 	/// <param name="output">Output stream</param>
 	/// <param name="input">Input stream</param>
+	/// <param name="token">Optional CancellationToken</param>
 	/// <param name="howManyBytesToProcessAtTime">How many bytes to read and write at time, default is 1024</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public async Task DecryptStreamAsync(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
+	public async Task DecryptStreamAsync(Stream output, Stream input, CancellationToken token = default, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
 		}
 
-		await this.WorkStreamsAsync(output, input, simdMode, howManyBytesToProcessAtTime);
+		await this.WorkStreamsAsync(output, input, token, simdMode, howManyBytesToProcessAtTime);
 	}
 
 	/// <summary>
@@ -520,11 +523,11 @@ public sealed class ChaCha20 : IDisposable
 		}	
 	}
 
-	private async Task WorkStreamsAsync(Stream output, Stream input, SimdMode simdMode, int howManyBytesToProcessAtTime = 1024)
+	private async Task WorkStreamsAsync(Stream output, Stream input, CancellationToken cancellationToken, SimdMode simdMode, int howManyBytesToProcessAtTime = 1024)
 	{
 		byte[] readBytesBuffer = new byte[howManyBytesToProcessAtTime];
 		byte[] writeBytesBuffer = new byte[howManyBytesToProcessAtTime];
-		int howManyBytesWereRead = await input.ReadAsync(readBytesBuffer, 0, howManyBytesToProcessAtTime);
+		int howManyBytesWereRead = await input.ReadAsync(readBytesBuffer, 0, howManyBytesToProcessAtTime, cancellationToken);
 
 		while (howManyBytesWereRead > 0)
 		{
@@ -532,10 +535,10 @@ public sealed class ChaCha20 : IDisposable
 			WorkBytes(output: writeBytesBuffer, input: readBytesBuffer, numBytes: howManyBytesWereRead, simdMode);
 
 			// Write
-			await output.WriteAsync(writeBytesBuffer, 0, howManyBytesWereRead);
+			await output.WriteAsync(writeBytesBuffer, 0, howManyBytesWereRead, cancellationToken);
 
 			// Read more
-			howManyBytesWereRead = await input.ReadAsync(readBytesBuffer, 0, howManyBytesToProcessAtTime);
+			howManyBytesWereRead = await input.ReadAsync(readBytesBuffer, 0, howManyBytesToProcessAtTime, cancellationToken);
 		}		
 	}
 
