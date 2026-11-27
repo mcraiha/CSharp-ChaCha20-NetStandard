@@ -232,6 +232,16 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	public void EncryptStream(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
+		if (!output.CanWrite)
+		{
+			throw new ArgumentException("output", "Output stream must be writeable!");
+		}
+
+		if (!input.CanRead)
+		{
+			throw new ArgumentException("input", "Input stream must be readable!");
+		}
+
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -250,6 +260,16 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	public async Task EncryptStreamAsync(Stream output, Stream input, CancellationToken token = default, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
+		if (!output.CanWrite)
+		{
+			throw new ArgumentException("output", "Output stream must be writeable!");
+		}
+
+		if (!input.CanRead)
+		{
+			throw new ArgumentException("input", "Input stream must be readable!");
+		}
+
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -392,6 +412,16 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	public void DecryptStream(Stream output, Stream input, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
+		if (!output.CanWrite)
+		{
+			throw new ArgumentException("output", "Output stream must be writeable!");
+		}
+
+		if (!input.CanRead)
+		{
+			throw new ArgumentException("input", "Input stream must be readable!");
+		}
+
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -410,6 +440,16 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	public async Task DecryptStreamAsync(Stream output, Stream input, CancellationToken token = default, int howManyBytesToProcessAtTime = 1024, SimdMode simdMode = SimdMode.AutoDetect)
 	{
+		if (!output.CanWrite)
+		{
+			throw new ArgumentException("output", "Output stream must be writeable!");
+		}
+
+		if (!input.CanRead)
+		{
+			throw new ArgumentException("input", "Input stream must be readable!");
+		}
+		
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
