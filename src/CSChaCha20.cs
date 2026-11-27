@@ -92,27 +92,6 @@ public sealed class ChaCha20 : IDisposable
 	/// <remarks>
 	/// See <a href="https://tools.ietf.org/html/rfc7539#page-10">ChaCha20 Spec Section 2.4</a> for a detailed description of the inputs.
 	/// </remarks>
-	/// <param name="key">
-	/// A 32-byte (256-bit) key, treated as a concatenation of eight 32-bit little-endian integers
-	/// </param>
-	/// <param name="nonce">
-	/// A 12-byte (96-bit) nonce, treated as a concatenation of three 32-bit little-endian integers
-	/// </param>
-	/// <param name="counter">
-	/// A 4-byte (32-bit) block counter, treated as a 32-bit little-endian integer
-	/// </param>
-	public ChaCha20(byte[] key, byte[] nonce, uint counter) 
-	{
-		this.KeySetup(key);
-		this.IvSetup(nonce, counter);
-	}
-
-	/// <summary>
-	/// Set up a new ChaCha20 state. The lengths of the given parameters are checked before encryption happens.
-	/// </summary>
-	/// <remarks>
-	/// See <a href="https://tools.ietf.org/html/rfc7539#page-10">ChaCha20 Spec Section 2.4</a> for a detailed description of the inputs.
-	/// </remarks>
 	/// <param name="key">A 32-byte (256-bit) key, treated as a concatenation of eight 32-bit little-endian integers</param>
 	/// <param name="nonce">A 12-byte (96-bit) nonce, treated as a concatenation of three 32-bit little-endian integers</param>
 	/// <param name="counter">A 4-byte (32-bit) block counter, treated as a 32-bit little-endian unsigned integer</param>

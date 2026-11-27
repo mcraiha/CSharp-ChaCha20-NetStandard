@@ -39,7 +39,7 @@ namespace Tests
 			// Act
 
 			// Assert
-			Assert.That(() => new ChaCha20(invalidKey1, validNonce, validCounter), Throws.ArgumentNullException);
+			Assert.That(() => new ChaCha20(invalidKey1, validNonce, validCounter), Throws.ArgumentException);
 			Assert.That(() => new ChaCha20(invalidKey2, validNonce, validCounter), Throws.ArgumentException);
 			Assert.That(() => new ChaCha20(invalidKey3, validNonce, validCounter), Throws.ArgumentException);
 			Assert.That(() => new ChaCha20(invalidKey4, validNonce, validCounter), Throws.ArgumentException);
@@ -60,7 +60,7 @@ namespace Tests
 			// Act
 
 			// Assert
-			Assert.That(() => new ChaCha20(validKey, invalidNonce1, validCounter), Throws.ArgumentNullException);
+			Assert.That(() => new ChaCha20(validKey, invalidNonce1, validCounter), Throws.ArgumentException);
 			Assert.That(() => new ChaCha20(validKey, invalidNonce2, validCounter), Throws.ArgumentException);
 			Assert.That(() => new ChaCha20(validKey, invalidNonce3, validCounter), Throws.ArgumentException);
 		}
