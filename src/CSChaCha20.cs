@@ -124,13 +124,8 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="key">
 	/// A 32-byte (256-bit) key, treated as a concatenation of eight 32-bit little-endian integers
 	/// </param>
-	private void KeySetup(byte[] key) 
+	private void KeySetup(ReadOnlySpan<byte> key) 
 	{
-		if (key == null) 
-		{
-			throw new ArgumentNullException("Key is null");
-		}
-
 		if (key.Length != allowedKeyLength) 
 		{
 			throw new ArgumentException($"Key length must be {allowedKeyLength}. Actual: {key.Length}");
@@ -164,15 +159,8 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="counter">
 	/// A 4-byte (32-bit) block counter, treated as a 32-bit little-endian integer
 	/// </param>
-	private void IvSetup(byte[] nonce, uint counter) 
+	private void IvSetup(ReadOnlySpan<byte> nonce, uint counter) 
 	{
-		if (nonce == null) 
-		{
-			// There has already been some state set up. Clear it before exiting.
-			Dispose();
-			throw new ArgumentNullException("Nonce is null");
-		}
-
 		if (nonce.Length != allowedNonceLength) 
 		{
 			// There has already been some state set up. Clear it before exiting.
@@ -878,7 +866,7 @@ public static class Util
 	/// <param name="inputOffset"></param>
 	/// <returns>An unsigned 32-bit integer</returns>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static uint U8To32Little(byte[] p, int inputOffset) 
+	public static uint U8To32Little(ReadOnlySpan<byte> p, int inputOffset) 
 	{
 		unchecked 
 		{
