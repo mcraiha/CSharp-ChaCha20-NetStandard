@@ -1,3 +1,8 @@
+## Version 1.2.1 (not released yet)
+- Support CancellationToken with async methods
+- Drop `byte[]` based constructor
+- Add some additional safety checks for streams
+
 ## Version 1.2.0 (released 2026-11-12)
 - Support net11.0
 - Drop support for .NET 8 (**BREAKING**)
