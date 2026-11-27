@@ -195,25 +195,15 @@ public sealed class ChaCha20 : IDisposable
 #region Encryption methods
 
 	/// <summary>
-	/// Encrypt arbitrary-length byte array (input), writing the resulting byte array to preallocated output buffer.
+	/// Encrypt arbitrary-length bytes readonlyspan (input), writing the resulting bytes to preallocated output buffer.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="output">Output byte array, must have enough bytes</param>
-	/// <param name="input">Input byte array</param>
+	/// <param name="output">Output bytes span, must have enough bytes</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="numBytes">Number of bytes to encrypt</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public void EncryptBytes(byte[] output, byte[] input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
+	public void EncryptBytes(Span<byte> output, ReadOnlySpan<byte> input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (output == null)
-		{
-			throw new ArgumentNullException("output", "Output cannot be null");
-		}
-
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (numBytes < 0 || numBytes > input.Length) 
 		{
 			throw new ArgumentOutOfRangeException("numBytes", "The number of bytes to read must be between [0..input.Length]");
@@ -267,22 +257,17 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	/// <summary>
-	/// Encrypt arbitrary-length byte array (input), writing the resulting byte array to preallocated output buffer.
+	/// Encrypt arbitrary-length bytes readonlyspan (input), writing the resulting bytes to preallocated output buffer.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="output">Output byte array, must have enough bytes</param>
-	/// <param name="input">Input byte array</param>
+	/// <param name="output">Output bytes span, must have enough bytes</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public void EncryptBytes(byte[] output, byte[] input, SimdMode simdMode = SimdMode.AutoDetect)
+	public void EncryptBytes(Span<byte> output, ReadOnlySpan<byte> input, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (output == null)
+		if (input.Length > output.Length)
 		{
-			throw new ArgumentNullException("output", "Output cannot be null");
-		}
-
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
+			throw new ArgumentException("output", $"Output buffer must be at least length of input buffer ({output.Length} vs. {input.Length})");
 		}
 
 		if (simdMode == SimdMode.AutoDetect)
@@ -294,20 +279,15 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	/// <summary>
-	/// Encrypt arbitrary-length byte array (input), writing the resulting byte array that is allocated by method.
+	/// Encrypt arbitrary-length bytes readonlyspan (input), writing the resulting byte array that is allocated by method.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
 	/// <param name="input">Input byte array</param>
 	/// <param name="numBytes">Number of bytes to encrypt</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	/// <returns>Byte array that contains encrypted bytes</returns>
-	public byte[] EncryptBytes(byte[] input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
+	public byte[] EncryptBytes(ReadOnlySpan<byte> input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (numBytes < 0 || numBytes > input.Length) 
 		{
 			throw new ArgumentOutOfRangeException("numBytes", "The number of bytes to read must be between [0..input.Length]");
@@ -324,19 +304,14 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	/// <summary>
-	/// Encrypt arbitrary-length byte array (input), writing the resulting byte array that is allocated by method.
+	/// Encrypt arbitrary-length bytes readonlyspan (input), writing the resulting byte array that is allocated by method.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="input">Input byte array</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	/// <returns>Byte array that contains encrypted bytes</returns>
-	public byte[] EncryptBytes(byte[] input, SimdMode simdMode = SimdMode.AutoDetect)
+	public byte[] EncryptBytes(ReadOnlySpan<byte> input, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -379,25 +354,15 @@ public sealed class ChaCha20 : IDisposable
 	#region // Decryption methods
 
 	/// <summary>
-	/// Decrypt arbitrary-length byte array (input), writing the resulting byte array to the output buffer.
+	/// Decrypt arbitrary-length byte array (input), writing the resulting bytes to the output buffer.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="output">Output byte array</param>
-	/// <param name="input">Input byte array</param>
+	/// <param name="output">Output bytes span</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="numBytes">Number of bytes to decrypt</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public void DecryptBytes(byte[] output, byte[] input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
+	public void DecryptBytes(Span<byte> output, ReadOnlySpan<byte> input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (output == null)
-		{
-			throw new ArgumentNullException("output", "Output cannot be null");
-		}
-
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (numBytes < 0 || numBytes > input.Length) 
 		{
 			throw new ArgumentOutOfRangeException("numBytes", "The number of bytes to read must be between [0..input.Length]");
@@ -451,22 +416,17 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	/// <summary>
-	/// Decrypt arbitrary-length byte array (input), writing the resulting byte array to preallocated output buffer.
+	/// Decrypt arbitrary-length byte array (input), writing the resulting bytes to preallocated output buffer.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="output">Output byte array, must have enough bytes</param>
+	/// <param name="output">Output bytes span, must have enough bytes</param>
 	/// <param name="input">Input byte array</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	public void DecryptBytes(byte[] output, byte[] input, SimdMode simdMode = SimdMode.AutoDetect)
+	public void DecryptBytes(Span<byte> output, ReadOnlySpan<byte> input, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (output == null)
+		if (input.Length > output.Length)
 		{
-			throw new ArgumentNullException("output", "Output cannot be null");
-		}
-
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
+			throw new ArgumentException("output", $"Output buffer must be at least length of input buffer ({output.Length} vs. {input.Length})");
 		}
 
 		if (simdMode == SimdMode.AutoDetect)
@@ -481,17 +441,12 @@ public sealed class ChaCha20 : IDisposable
 	/// Decrypt arbitrary-length byte array (input), writing the resulting byte array that is allocated by method.
 	/// </summary>
 	/// <remarks>Since this is symmetric operation, it doesn't really matter if you use Encrypt or Decrypt method</remarks>
-	/// <param name="input">Input byte array</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="numBytes">Number of bytes to encrypt</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	/// <returns>Byte array that contains decrypted bytes</returns>
-	public byte[] DecryptBytes(byte[] input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
+	public byte[] DecryptBytes(ReadOnlySpan<byte> input, int numBytes, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (numBytes < 0 || numBytes > input.Length) 
 		{
 			throw new ArgumentOutOfRangeException("numBytes", "The number of bytes to read must be between [0..input.Length]");
@@ -514,13 +469,8 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="input">Input byte array</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	/// <returns>Byte array that contains decrypted bytes</returns>
-	public byte[] DecryptBytes(byte[] input, SimdMode simdMode = SimdMode.AutoDetect)
+	public byte[] DecryptBytes(ReadOnlySpan<byte> input, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -535,16 +485,11 @@ public sealed class ChaCha20 : IDisposable
 	/// Decrypt UTF8 byte array to string.
 	/// </summary>
 	/// <remarks>Here you can NOT swap encrypt and decrypt methods, because of bytes-string transform</remarks>
-	/// <param name="input">Byte array</param>
+	/// <param name="input">Input bytes readonlyspan</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
 	/// <returns>Byte array that contains encrypted bytes</returns>
-	public string DecryptUTF8ByteArray(byte[] input, SimdMode simdMode = SimdMode.AutoDetect)
+	public string DecryptUTF8ByteArray(ReadOnlySpan<byte> input, SimdMode simdMode = SimdMode.AutoDetect)
 	{
-		if (input == null)
-		{
-			throw new ArgumentNullException("input", "Input cannot be null");
-		}
-
 		if (simdMode == SimdMode.AutoDetect)
 		{
 			simdMode = DetectSimdMode();
@@ -595,13 +540,13 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	/// <summary>
-	/// Encrypt or decrypt an arbitrary-length byte array (input), writing the resulting byte array to the output buffer. The number of bytes to read from the input buffer is determined by numBytes.
+	/// Encrypt or decrypt an arbitrary-length byte span (input), writing the resulting bytes to the output buffer. The number of bytes to read from the input buffer is determined by numBytes.
 	/// </summary>
-	/// <param name="output">Output byte array</param>
-	/// <param name="input">Input byte array</param>
+	/// <param name="output">Output byte span</param>
+	/// <param name="input">Input byte readonlyspan</param>
 	/// <param name="numBytes">How many bytes to process</param>
 	/// <param name="simdMode">Chosen SIMD mode (default is auto-detect)</param>
-	private void WorkBytes(byte[] output, byte[] input, int numBytes, SimdMode simdMode) 
+	private void WorkBytes(Span<byte> output, ReadOnlySpan<byte> input, int numBytes, SimdMode simdMode) 
 	{
 		if (isDisposed) 
 		{
@@ -622,46 +567,46 @@ public sealed class ChaCha20 : IDisposable
 			if (simdMode == SimdMode.V512)
 			{
 				// 1 x 64 bytes
-				Vector512<byte> inputV = Vector512.Create(input, offset);
+				Vector512<byte> inputV = Vector512.Create(input.Slice(offset));
 				Vector512<byte> tmpV = Vector512.Create(tmp, 0);
 				Vector512<byte> outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset);
+				outputV.CopyTo(output.Slice(offset));
 			}
 			else if (simdMode == SimdMode.V256)
 			{
 				// 2 x 32 bytes
-				Vector256<byte> inputV = Vector256.Create(input, offset);
+				Vector256<byte> inputV = Vector256.Create(input.Slice(offset));
 				Vector256<byte> tmpV = Vector256.Create(tmp, 0);
 				Vector256<byte> outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset);
+				outputV.CopyTo(output.Slice(offset));
 
-				inputV = Vector256.Create(input, offset + 32);
+				inputV = Vector256.Create(input.Slice(offset + 32));
 				tmpV = Vector256.Create(tmp, 32);
 				outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset + 32);
+				outputV.CopyTo(output.Slice(offset + 32));
 			}
 			else if (simdMode == SimdMode.V128)
 			{
 				// 4 x 16 bytes
-				Vector128<byte> inputV = Vector128.Create(input, offset);
+				Vector128<byte> inputV = Vector128.Create(input.Slice(offset));
 				Vector128<byte> tmpV = Vector128.Create(tmp, 0);
 				Vector128<byte> outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset);
+				outputV.CopyTo(output.Slice(offset));
 
-				inputV = Vector128.Create(input, offset + 16);
+				inputV = Vector128.Create(input.Slice(offset + 16));
 				tmpV = Vector128.Create(tmp, 16);
 				outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset + 16);
+				outputV.CopyTo(output.Slice(offset + 16));
 
-				inputV = Vector128.Create(input, offset + 32);
+				inputV = Vector128.Create(input.Slice(offset + 32));
 				tmpV = Vector128.Create(tmp, 32);
 				outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset + 32);
+				outputV.CopyTo(output.Slice(offset + 32));
 
-				inputV = Vector128.Create(input, offset + 48);
+				inputV = Vector128.Create(input.Slice(offset + 48));
 				tmpV = Vector128.Create(tmp, 48);
 				outputV = inputV ^ tmpV;
-				outputV.CopyTo(output, offset + 48);
+				outputV.CopyTo(output.Slice(offset + 48));
 			}
 			else
 			{

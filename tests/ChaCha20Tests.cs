@@ -88,8 +88,8 @@ namespace Tests
 			// Act
 
 			// Assert
-			Assert.That(() => nullInput.EncryptBytes(validOutputArray, invalidInput1, lengthOfData), Throws.ArgumentNullException);
-			Assert.That(() => nullInput.EncryptBytes(invalidOutput1, validInputArray, lengthOfData), Throws.ArgumentNullException);
+			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(validOutputArray, invalidInput1, lengthOfData));
+			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(invalidOutput1, validInputArray, lengthOfData));
 
 			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(validOutputArray, validInputArray, -1));
 			Assert.Throws<ArgumentOutOfRangeException>(() => nullInput.EncryptBytes(validOutputArray, validInputArray, lengthOfData + 1));
