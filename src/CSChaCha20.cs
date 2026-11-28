@@ -681,7 +681,7 @@ public sealed class ChaCha20 : IDisposable
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private static void UpdateStateAndGenerateTemporaryBuffer(uint[] stateToModify, uint[] workingBuffer, byte[] temporaryBuffer)
+	private static void UpdateStateAndGenerateTemporaryBuffer(uint[] stateToModify, uint[] workingBuffer, Span<byte> temporaryBuffer)
 	{
 		// Copy state to working buffer
 		Buffer.BlockCopy(stateToModify, 0, workingBuffer, 0, stateLength * sizeof(uint));
@@ -701,7 +701,7 @@ public sealed class ChaCha20 : IDisposable
 
 		for (int i = 0; i < stateLength; i++) 
 		{
-			Util.ToBytes(temporaryBuffer, Util.Add(workingBuffer[i], stateToModify[i]), 4 * i);
+			BinaryPrimitives.WriteUInt32LittleEndian(temporaryBuffer.Slice(4 * i), Util.Add(workingBuffer[i], stateToModify[i]));
 		}
 
 		stateToModify[12] = Util.AddOne(stateToModify[12]);
@@ -846,23 +846,5 @@ public static class Util
 	public static uint AddOne(uint v) 
 	{
 		return unchecked(v + 1);
-	}
-
-	/// <summary>
-	/// Serialize the input integer into the output buffer. The input integer will be split into 4 bytes and put into four sequential places in the output buffer, starting at the outputOffset.
-	/// </summary>
-	/// <param name="output"></param>
-	/// <param name="input"></param>
-	/// <param name="outputOffset"></param>
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static void ToBytes(byte[] output, uint input, int outputOffset) 
-	{
-		unchecked 
-		{
-			output[outputOffset]     = (byte) input;
-			output[outputOffset + 1] = (byte) (input >> 8);
-			output[outputOffset + 2] = (byte) (input >> 16);
-			output[outputOffset + 3] = (byte) (input >> 24);
-		}
 	}
 }
