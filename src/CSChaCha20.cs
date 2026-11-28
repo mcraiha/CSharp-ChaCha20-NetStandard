@@ -98,8 +98,8 @@ public sealed class ChaCha20 : IDisposable
 	/// <param name="counter">A 4-byte (32-bit) block counter, treated as a 32-bit little-endian unsigned integer</param>
 	public ChaCha20(ReadOnlySpan<byte> key, ReadOnlySpan<byte> nonce, uint counter) 
 	{
-		this.KeySetup(key.ToArray());
-		this.IvSetup(nonce.ToArray(), counter);
+		this.KeySetup(key);
+		this.IvSetup(nonce, counter);
 	}
 
 	/// <summary>
