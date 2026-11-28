@@ -17,6 +17,7 @@
 
 using System;
 using System.IO;
+using System.Numerics;
 using System.Buffers.Binary;
 using System.Threading.Tasks;
 using System.Runtime.Intrinsics;
@@ -728,16 +729,16 @@ public sealed class ChaCha20 : IDisposable
 	private static void QuarterRound(uint[] x, uint a, uint b, uint c, uint d) 
 	{
 		x[a] = Util.Add(x[a], x[b]); 
-		x[d] = Util.Rotate(Util.XOr(x[d], x[a]), 16);
+		x[d] = BitOperations.RotateLeft(Util.XOr(x[d], x[a]), 16);
 
 		x[c] = Util.Add(x[c], x[d]); 
-		x[b] = Util.Rotate(Util.XOr(x[b], x[c]), 12);
+		x[b] = BitOperations.RotateLeft(Util.XOr(x[b], x[c]), 12);
 
 		x[a] = Util.Add(x[a], x[b]); 
-		x[d] = Util.Rotate(Util.XOr(x[d], x[a]),  8);
+		x[d] = BitOperations.RotateLeft(Util.XOr(x[d], x[a]),  8);
 
 		x[c] = Util.Add(x[c], x[d]); 
-		x[b] = Util.Rotate(Util.XOr(x[b], x[c]),  7);
+		x[b] = BitOperations.RotateLeft(Util.XOr(x[b], x[c]),  7);
 	}
 
 	#region Destructor and Disposer
@@ -792,21 +793,6 @@ public sealed class ChaCha20 : IDisposable
 /// </summary>
 public static class Util 
 {
-	/// <summary>
-	/// n-bit left rotation operation (towards the high bits) for 32-bit integers.
-	/// </summary>
-	/// <param name="v"></param>
-	/// <param name="c"></param>
-	/// <returns>The result of (v LEFTSHIFT c)</returns>
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static uint Rotate(uint v, int c) 
-	{
-		unchecked 
-		{
-			return (v << c) | (v >> (32 - c));
-		}
-	}
-
 	/// <summary>
 	/// Unchecked integer exclusive or (XOR) operation.
 	/// </summary>
