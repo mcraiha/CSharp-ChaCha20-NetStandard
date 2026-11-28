@@ -541,9 +541,9 @@ public class ChaCha20Tests
 		forEncrypting3.EncryptBytes(output3, content3, lengthOfContent3, simdMode);
 
 		// Assert
-		Assert.That(output1, Is.EqualTo(output1));
-		Assert.That(output2, Is.EqualTo(output2));
-		Assert.That(output3, Is.EqualTo(output3));
+		Assert.That(expected1, Is.EqualTo(output1));
+		Assert.That(expected2, Is.EqualTo(output2));
+		Assert.That(expected3, Is.EqualTo(output3));
 	}
 
 	[Test, Description("Check that .State has something")]
