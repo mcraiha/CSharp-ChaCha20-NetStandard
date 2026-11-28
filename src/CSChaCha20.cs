@@ -17,6 +17,7 @@
 
 using System;
 using System.IO;
+using System.Buffers.Binary;
 using System.Threading.Tasks;
 using System.Runtime.Intrinsics;
 using System.Runtime.CompilerServices; // For MethodImplOptions.AggressiveInlining
@@ -132,23 +133,23 @@ public sealed class ChaCha20 : IDisposable
 			throw new ArgumentException($"Key length must be {allowedKeyLength}. Actual: {key.Length}");
 		}	
 
-		state[4] = Util.U8To32Little(key, 0);
-		state[5] = Util.U8To32Little(key, 4);
-		state[6] = Util.U8To32Little(key, 8);
-		state[7] = Util.U8To32Little(key, 12);
+		state[4] = BinaryPrimitives.ReadUInt32LittleEndian(key);
+		state[5] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(4));
+		state[6] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(8));
+		state[7] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(12));
 
-		byte[] constants = (key.Length == allowedKeyLength) ? sigma : tau;
+		ReadOnlySpan<byte> constants = (key.Length == allowedKeyLength) ? sigma : tau;
 		int keyIndex = key.Length - 16;
 
-		state[8]  = Util.U8To32Little(key, keyIndex + 0);
-		state[9]  = Util.U8To32Little(key, keyIndex + 4);
-		state[10] = Util.U8To32Little(key, keyIndex + 8);
-		state[11] = Util.U8To32Little(key, keyIndex + 12);
+		state[8]  = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(keyIndex + 0));
+		state[9]  = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(keyIndex + 4));
+		state[10] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(keyIndex + 8));
+		state[11] = BinaryPrimitives.ReadUInt32LittleEndian(key.Slice(keyIndex + 12));
 
-		state[0] = Util.U8To32Little(constants, 0);
-		state[1] = Util.U8To32Little(constants, 4);
-		state[2] = Util.U8To32Little(constants, 8);
-		state[3] = Util.U8To32Little(constants, 12);
+		state[0] = BinaryPrimitives.ReadUInt32LittleEndian(constants);
+		state[1] = BinaryPrimitives.ReadUInt32LittleEndian(constants.Slice(4));
+		state[2] = BinaryPrimitives.ReadUInt32LittleEndian(constants.Slice(8));
+		state[3] = BinaryPrimitives.ReadUInt32LittleEndian(constants.Slice(12));
 	}
 
 	/// <summary>
@@ -170,9 +171,9 @@ public sealed class ChaCha20 : IDisposable
 		}
 
 		state[12] = counter;
-		state[13] = Util.U8To32Little(nonce, 0);
-		state[14] = Util.U8To32Little(nonce, 4);
-		state[15] = Util.U8To32Little(nonce, 8);
+		state[13] = BinaryPrimitives.ReadUInt32LittleEndian(nonce);
+		state[14] = BinaryPrimitives.ReadUInt32LittleEndian(nonce.Slice(4));
+		state[15] = BinaryPrimitives.ReadUInt32LittleEndian(nonce.Slice(8));
 	}
 
 	private static SimdMode DetectSimdMode()
@@ -845,24 +846,6 @@ public static class Util
 	public static uint AddOne(uint v) 
 	{
 		return unchecked(v + 1);
-	}
-
-	/// <summary>
-	/// Convert four bytes of the input buffer into an unsigned 32-bit integer, beginning at the inputOffset.
-	/// </summary>
-	/// <param name="p"></param>
-	/// <param name="inputOffset"></param>
-	/// <returns>An unsigned 32-bit integer</returns>
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static uint U8To32Little(ReadOnlySpan<byte> p, int inputOffset) 
-	{
-		unchecked 
-		{
-			return ((uint) p[inputOffset]
-				| ((uint) p[inputOffset + 1] << 8)
-				| ((uint) p[inputOffset + 2] << 16)
-				| ((uint) p[inputOffset + 3] << 24));
-		}
 	}
 
 	/// <summary>
